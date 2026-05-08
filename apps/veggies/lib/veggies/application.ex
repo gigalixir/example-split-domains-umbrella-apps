@@ -9,7 +9,8 @@ defmodule Veggies.Application do
   def start(_type, _args) do
     children = [
       VeggiesWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:veggies, :dns_cluster_query) || :ignore},
+      # DNSCluster is owned by Proxy.Application — only one sub-app in the
+      # umbrella can register the default DNSCluster name.
       {Phoenix.PubSub, name: Veggies.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Veggies.Finch},

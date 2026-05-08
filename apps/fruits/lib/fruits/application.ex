@@ -9,7 +9,8 @@ defmodule Fruits.Application do
   def start(_type, _args) do
     children = [
       FruitsWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:fruits, :dns_cluster_query) || :ignore},
+      # DNSCluster is owned by Proxy.Application — only one sub-app in the
+      # umbrella can register the default DNSCluster name.
       {Phoenix.PubSub, name: Fruits.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Fruits.Finch},
